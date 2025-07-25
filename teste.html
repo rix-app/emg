@@ -4,135 +4,225 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plano 15 Dias: Barriga Chapada & Bumbum Turbinado</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #FF6B8B;
+            --secondary: #6B5FEF;
+            --accent: #FF9E7D;
+            --light-bg: #FFF5F5;
+            --card-bg: #FFFFFF;
+        }
+        
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #FFF5F5;
+            background-color: var(--light-bg);
             color: #333;
-            line-height: 1.5;
+            line-height: 1.6;
             padding: 0;
             margin: 0;
         }
-        /* Configurações para impressão */
-        @page {
-            size: A4;
-            margin: 1cm;
-        }
-        .pdf-page {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            page-break-after: always;
-            padding: 0;
-        }
-        .day-pair {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            margin: auto;
-            width: 90%;
-            max-width: 600px;
-        }
-        .day {
-            background: white;
-            border-radius: 15px;
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            break-inside: avoid;
         }
-        h1 {
-            color: #FF6B8B;
+        
+        header {
             text-align: center;
-            font-size: 24px;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 28px;
             margin-bottom: 5px;
         }
-        h2 {
-            color: #6B5FEF;
+        
+        .subtitle {
+            font-style: italic;
             font-size: 18px;
-            border-bottom: 2px dashed #FFE8E8;
-            padding-bottom: 5px;
-            margin-top: 0;
+            opacity: 0.9;
         }
+        
+        .days-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+        
+        .day {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .day:hover {
+            transform: translateY(-5px);
+        }
+        
+        h2 {
+            color: var(--secondary);
+            font-size: 20px;
+            border-bottom: 2px dashed #FFE8E8;
+            padding-bottom: 8px;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        h2 i {
+            margin-right: 10px;
+        }
+        
+        .goal {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: block;
+        }
+        
         .task {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 10px;
-            font-size: 15px;
+            margin-bottom: 12px;
+            font-size: 16px;
+            position: relative;
+            padding-left: 35px;
         }
-        .task input {
-            margin-right: 10px;
-            transform: scale(1.2);
+        
+        .task-icon {
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.2s;
         }
+        
+        .task-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .task-icon.completed {
+            color: #4CAF50;
+        }
+        
+        .exercise-link {
+            display: inline-block;
+            margin-left: 8px;
+            font-size: 13px;
+            background: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 10px;
+            color: var(--secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .exercise-link:hover {
+            background: var(--secondary);
+            color: white;
+        }
+        
         .tip {
             background: #F0F8FF;
-            padding: 10px;
+            padding: 12px;
             border-radius: 10px;
             margin-top: 15px;
             font-size: 14px;
+            border-left: 4px solid var(--secondary);
         }
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #888;
-            font-size: 14px;
+        
+        .tip i {
+            color: var(--primary);
+            margin-right: 5px;
         }
+        
         .final-message {
             text-align: center;
             padding: 30px;
-            background: linear-gradient(135deg, #FF9A9E 0%, #FAD0C4 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             border-radius: 15px;
             color: white;
-            margin: 20px auto;
-            max-width: 600px;
+            margin: 40px 0;
         }
+        
         .final-message h2 {
             color: white;
             border-bottom: 2px dashed rgba(255,255,255,0.5);
+            justify-content: center;
         }
-        @media print {
-            body {
-                background: white;
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #888;
+            font-size: 14px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
             }
-            .pdf-page {
-                height: 100%;
-                justify-content: start;
+            
+            header {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .day {
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Página 1 (Dia 1 + Dicas Extras) -->
-    <div class="pdf-page">
-        <h1>💃 Plano de 15 Dias 💃</h1>
-        <p style="text-align: center;"><em>Barriga Chapada + Bumbum 🍑</em></p>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-calendar-alt"></i> Plano de 15 Dias</h1>
+            <p class="subtitle">Barriga Chapada + Bumbum Turbinado</p>
+        </header>
         
-        <div class="day-pair">
+        <div class="days-container">
             <!-- Dia 1 -->
             <div class="day">
-                <h2>📅 DIA 1</h2>
-                <p><strong>🎯 Meta do dia:</strong> Começar com tudo!</p>
+                <h2><i class="fas fa-calendar-day"></i> DIA 1</h2>
+                <span class="goal">🎯 Meta do dia: Começar com tudo!</span>
+                
                 <div class="task">
-                    <input type="checkbox" id="dia1-1">
-                    <label for="dia1-1">2 copos de água ao acordar (em jejum)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>2 copos de água ao acordar (em jejum)</label>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia1-2">
-                    <label for="dia1-2">Corte refrigerante ou suco industrializado</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Corte refrigerante ou suco industrializado</label>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia1-3">
-                    <label for="dia1-3">20 agachamentos (faça enquanto escova os dentes) <a target="_blank" href="https://google.com">Exemplo</a></label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>20 agachamentos (faça enquanto escova os dentes)</label>
+                    <a href="#" class="exercise-link" target="_blank">Exemplo</a>
                 </div>
                 <div class="tip">
-                    💡 <strong>Dica:</strong> Anote seu peso e tire uma foto do "antes"!
+                    <i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Anote seu peso e tire uma foto do "antes"!
                 </div>
             </div>
-
+            
             <!-- Dicas Extras -->
             <div class="day">
-                <h2>🌟 DICAS EXTRAS PARA COMEÇAR</h2>
+                <h2><i class="fas fa-star"></i> DICAS EXTRAS PARA COMEÇAR</h2>
                 <ul style="padding-left: 20px;">
                     <li><strong>Água:</strong> Beba 1 copo antes de cada refeição para reduzir fome.</li>
                     <li><strong>Exercícios:</strong> Faça agachamentos no banho ou enquanto espera o café esquentar.</li>
@@ -141,346 +231,364 @@
                     <li><strong>Motivação:</strong> Coloque um lembrete no celular com seu objetivo!</li>
                 </ul>
                 <div class="tip" style="background: #FFEEF6;">
-                    ✨ Você já deu o primeiro passo - o mais importante!
+                    <i class="fas fa-magic"></i> <strong>Você já deu o primeiro passo</strong> - o mais importante!
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Página 2 (Dias 2, 3 e 4) -->
-    <div class="pdf-page">
-        <div class="day-pair">
+            
             <!-- Dia 2 -->
             <div class="day">
-                <h2>📅 DIA 2</h2>
-                <p><strong>🎯 Meta do dia:</strong> Proteína + Movimento!</p>
+                <h2><i class="fas fa-calendar-day"></i> DIA 2</h2>
+                <span class="goal">🎯 Meta do dia: Proteína + Movimento!</span>
+                
                 <div class="task">
-                    <input type="checkbox" id="dia2-1">
-                    <label for="dia2-1">1 copo de água com limão em jejum</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>1 copo de água com limão em jejum</label>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia2-2">
-                    <label for="dia2-2">Café da manhã: 1 ovo cozido + 1 fatia de abacate</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Café da manhã: 1 ovo cozido + 1 fatia de abacate</label>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia2-3">
-                    <label for="dia2-3">Caminhe 10 minutos (pode ser no quintal ou varanda)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Caminhe 10 minutos (pode ser no quintal ou varanda)</label>
+                    <a href="#" class="exercise-link" target="_blank">Exemplo</a>
                 </div>
                 <div class="tip">
-                    💡 <strong>Dica:</strong> Mastigue devagar para digestão melhor!
+                    <i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Mastigue devagar para digestão melhor!
                 </div>
             </div>
-
+            
             <!-- Dia 3 -->
             <div class="day">
-                <h2>📅 DIA 3</h2>
-                <p><strong>🎯 Meta do dia:</strong> Trocar o branco pelo integral!</p>
+                <h2><i class="fas fa-calendar-day"></i> DIA 3</h2>
+                <span class="goal">🎯 Meta do dia: Trocar o branco pelo integral!</span>
+                
                 <div class="task">
-                    <input type="checkbox" id="dia3-1">
-                    <label for="dia3-1">Substitua pão branco por pão integral ou tapioca</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Substitua pão branco por pão integral ou tapioca</label>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia3-2">
-                    <label for="dia3-2">30 segundos de "ponte" (deitada, levante o bumbum)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>30 segundos de "ponte" (deitada, levante o bumbum)</label>
+                    <a href="#" class="exercise-link" target="_blank">Exemplo</a>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia3-3">
-                    <label for="dia3-3">Beba chá de hibisco ou chá-verde (sem açúcar)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Beba chá de hibisco ou chá-verde (sem açúcar)</label>
                 </div>
                 <div class="tip">
-                    💡 <strong>Dica:</strong> Durma 15 minutos mais cedo hoje!
+                    <i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Durma 15 minutos mais cedo hoje!
                 </div>
             </div>
-
+            
             <!-- Dia 4 -->
             <div class="day">
-                <h2>📅 DIA 4</h2>
-                <p><strong>🎯 Meta do dia:</strong> Fibras para saciar!</p>
+                <h2><i class="fas fa-calendar-day"></i> DIA 4</h2>
+                <span class="goal">🎯 Meta do dia: Fibras para saciar!</span>
+                
                 <div class="task">
-                    <input type="checkbox" id="dia4-1">
-                    <label for="dia4-1">1 colher de aveia no café ou iogurte</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>1 colher de aveia no café ou iogurte</label>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia4-2">
-                    <label for="dia4-2">15 agachamentos + 10 elevações de perna (de lado)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>15 agachamentos + 10 elevações de perna (de lado)</label>
+                    <a href="#" class="exercise-link" target="_blank">Exemplo</a>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia4-3">
-                    <label for="dia4-3">Não beba líquidos 30min antes/depois das refeições</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Não beba líquidos 30min antes/depois das refeições</label>
                 </div>
                 <div class="tip">
-                    💡 <strong>Dica:</strong> Use um elástico no pulso para lembrar de beber água!
+                    <i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Use um elástico no pulso para lembrar de beber água!
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Página 3 (Dias 5, 6 e 7) -->
-    <div class="pdf-page">
-        <div class="day-pair">
+            
             <!-- Dia 5 -->
             <div class="day">
-                <h2>📅 DIA 5</h2>
-                <p><strong>🎯 Meta do dia:</strong> Dormir melhor = menos gordura!</p>
+                <h2><i class="fas fa-calendar-day"></i> DIA 5</h2>
+                <span class="goal">🎯 Meta do dia: Dormir melhor = menos gordura!</span>
+                
                 <div class="task">
-                    <input type="checkbox" id="dia5-1">
-                    <label for="dia5-1">Jante até 2h antes de dormir</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Jante até 2h antes de dormir</label>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia5-2">
-                    <label for="dia5-2">1 minuto de prancha (apoie nos cotovelos)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>1 minuto de prancha (apoie nos cotovelos)</label>
+                    <a href="#" class="exercise-link" target="_blank">Exemplo</a>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia5-3">
-                    <label for="dia5-3">Evite frituras hoje</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Evite frituras hoje</label>
                 </div>
                 <div class="tip">
-                    💡 <strong>Dica:</strong> Desligue o celular 30min antes de dormir!
+                    <i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Desligue o celular 30min antes de dormir!
                 </div>
             </div>
-
+            
             <!-- Dia 6 -->
             <div class="day">
-                <h2>📅 DIA 6</h2>
-                <p><strong>🎯 Meta do dia:</strong> Gordura boa pro bumbum!</p>
+                <h2><i class="fas fa-calendar-day"></i> DIA 6</h2>
+                <span class="goal">🎯 Meta do dia: Gordura boa pro bumbum!</span>
+                
                 <div class="task">
-                    <input type="checkbox" id="dia6-1">
-                    <label for="dia6-1">1 colher de sopa de pasta de amendoim ou castanhas</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>1 colher de sopa de pasta de amendoim ou castanhas</label>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia6-2">
-                    <label for="dia6-2">20 agachamentos sumô (pernas abertas)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>20 agachamentos sumô (pernas abertas)</label>
+                    <a href="#" class="exercise-link" target="_blank">Exemplo</a>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia6-3">
-                    <label for="dia6-3">Substitua o açúcar por canela ou adoçante</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Substitua o açúcar por canela ou adoçante</label>
                 </div>
                 <div class="tip">
-                    💡 <strong>Dica:</strong> Inspire 5 segundos, expire 5 segundos para reduzir ansiedade!
+                    <i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Inspire 5 segundos, expire 5 segundos para reduzir ansiedade!
                 </div>
             </div>
-
+            
             <!-- Dia 7 -->
             <div class="day">
-                <h2>📅 DIA 7</h2>
-                <p><strong>🎯 Meta do dia:</strong> Desintoxicar!</p>
+                <h2><i class="fas fa-calendar-day"></i> DIA 7</h2>
+                <span class="goal">🎯 Meta do dia: Desintoxicar!</span>
+                
                 <div class="task">
-                    <input type="checkbox" id="dia7-1">
-                    <label for="dia7-1">Beba 1 copo de água morna com 1 colher de vinagre de maçã</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Beba 1 copo de água morna com 1 colher de vinagre de maçã</label>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia7-2">
-                    <label for="dia7-2">15 minutos de caminhada acelerada</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>15 minutos de caminhada acelerada</label>
+                    <a href="#" class="exercise-link" target="_blank">Exemplo</a>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia7-3">
-                    <label for="dia7-3">Coma 1 fruta com casca (maçã, pera, ameixa)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Coma 1 fruta com casca (maçã, pera, ameixa)</label>
                 </div>
                 <div class="tip">
-                    💡 <strong>Dica:</strong> Celebre sua primeira semana! Tome um banho relaxante.
+                    <i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Celebre sua primeira semana! Tome um banho relaxante.
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Página 4 (Dias 8, 9 e 10) -->
-    <div class="pdf-page">
-        <div class="day-pair">
+            
             <!-- Dia 8 -->
             <div class="day">
-                <h2>📅 DIA 8</h2>
-                <p><strong>🎯 Meta do dia:</strong> Ativar o metabolismo!</p>
+                <h2><i class="fas fa-calendar-day"></i> DIA 8</h2>
+                <span class="goal">🎯 Meta do dia: Ativar o metabolismo!</span>
+                
                 <div class="task">
-                    <input type="checkbox" id="dia8-1">
-                    <label for="dia8-1">Acorde e alongue o corpo por 2 minutos</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Acorde e alongue o corpo por 2 minutos</label>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia8-2">
-                    <label for="dia8-2">30 segundos de prancha + 10 flexões de glúteo (4 apoios)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>30 segundos de prancha + 10 flexões de glúteo (4 apoios)</label>
+                    <a href="#" class="exercise-link" target="_blank">Exemplo</a>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia8-3">
-                    <label for="dia8-3">Tempero termogênico: pimenta ou gengibre na comida</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Tempero termogênico: pimenta ou gengibre na comida</label>
                 </div>
                 <div class="tip">
-                    💡 <strong>Dica:</strong> Beba água gelada para gastar calorias!
+                    <i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Beba água gelada para gastar calorias!
                 </div>
             </div>
-
+            
             <!-- Dia 9 -->
             <div class="day">
-                <h2>📅 DIA 9</h2>
-                <p><strong>🎯 Meta do dia:</strong> Foco no bumbum!</p>
+                <h2><i class="fas fa-calendar-day"></i> DIA 9</h2>
+                <span class="goal">🎯 Meta do dia: Foco no bumbum!</span>
+                
                 <div class="task">
-                    <input type="checkbox" id="dia9-1">
-                    <label for="dia9-1">Coma 1 porção de proteína no almoço (frango, peixe, ovo)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Coma 1 porção de proteína no almoço (frango, peixe, ovo)</label>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia9-2">
-                    <label for="dia9-2">3 séries de 10 "chutes de burro" (por perna)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>3 séries de 10 "chutes de burro" (por perna)</label>
+                    <a href="#" class="exercise-link" target="_blank">Exemplo</a>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia9-3">
-                    <label for="dia9-3">Evite pão francês ou biscoitos hoje</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Evite pão francês ou biscoitos hoje</label>
                 </div>
                 <div class="tip">
-                    💡 <strong>Dica:</strong> Contraia o bumbum sempre que ficar em pé!
+                    <i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Contraia o bumbum sempre que ficar em pé!
                 </div>
             </div>
-
+            
             <!-- Dia 10 -->
             <div class="day">
-                <h2>📅 DIA 10</h2>
-                <p><strong>🎯 Meta do dia:</strong> Queimar extra!</p>
+                <h2><i class="fas fa-calendar-day"></i> DIA 10</h2>
+                <span class="goal">🎯 Meta do dia: Queimar extra!</span>
+                
                 <div class="task">
-                    <input type="checkbox" id="dia10-1">
-                    <label for="dia10-1">Beba chá de cavalinha ou dente-de-leão (diurético)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Beba chá de cavalinha ou dente-de-leão (diurético)</label>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia10-2">
-                    <label for="dia10-2">Suba escadas por 5 minutos (ou simule no degrau de casa)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Suba escadas por 5 minutos (ou simule no degrau de casa)</label>
+                    <a href="#" class="exercise-link" target="_blank">Exemplo</a>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia10-3">
-                    <label for="dia10-3">Jante proteína + salada verde</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Jante proteína + salada verde</label>
                 </div>
                 <div class="tip">
-                    💡 <strong>Dica:</strong> Use fita métrica para medir a cintura e o bumbum!
+                    <i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Use fita métrica para medir a cintura e o bumbum!
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Página 5 (Dias 11, 12 e 13) -->
-    <div class="pdf-page">
-        <div class="day-pair">
+            
             <!-- Dia 11 -->
             <div class="day">
-                <h2>📅 DIA 11</h2>
-                <p><strong>🎯 Meta do dia:</strong> Relaxar e recuperar!</p>
+                <h2><i class="fas fa-calendar-day"></i> DIA 11</h2>
+                <span class="goal">🎯 Meta do dia: Relaxar e recuperar!</span>
+                
                 <div class="task">
-                    <input type="checkbox" id="dia11-1">
-                    <label for="dia11-1">Beba água de coco ou suco verde (couve + limão)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Beba água de coco ou suco verde (couve + limão)</label>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia11-2">
-                    <label for="dia11-2">Alongamento de 5 minutos (pernas e coluna)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Alongamento de 5 minutos (pernas e coluna)</label>
+                    <a href="#" class="exercise-link" target="_blank">Exemplo</a>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia11-3">
-                    <label for="dia11-3">Durma sem luzes ou TV ligada</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Durma sem luzes ou TV ligada</label>
                 </div>
                 <div class="tip">
-                    💡 <strong>Dica:</strong> Massageie o abdômen com óleo de coco para reduzir inchaço!
+                    <i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Massageie o abdômen com óleo de coco para reduzir inchaço!
                 </div>
             </div>
-
+            
             <!-- Dia 12 -->
             <div class="day">
-                <h2>📅 DIA 12</h2>
-                <p><strong>🎯 Meta do dia:</strong> Acelerar resultados!</p>
+                <h2><i class="fas fa-calendar-day"></i> DIA 12</h2>
+                <span class="goal">🎯 Meta do dia: Acelerar resultados!</span>
+                
                 <div class="task">
-                    <input type="checkbox" id="dia12-1">
-                    <label for="dia12-1">Café preto sem açúcar (se tolerar)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Café preto sem açúcar (se tolerar)</label>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia12-2">
-                    <label for="dia12-2">20 agachamentos pulando (ou normais se for difícil)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>20 agachamentos pulando (ou normais se for difícil)</label>
+                    <a href="#" class="exercise-link" target="_blank">Exemplo</a>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia12-3">
-                    <label for="dia12-3">Jante até 19h (ou 3h antes de dormir)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Jante até 19h (ou 3h antes de dormir)</label>
                 </div>
                 <div class="tip">
-                    💡 <strong>Dica:</strong> Use roupas justas para se motivar!
+                    <i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Use roupas justas para se motivar!
                 </div>
             </div>
-
+            
             <!-- Dia 13 -->
             <div class="day">
-                <h2>📅 DIA 13</h2>
-                <p><strong>🎯 Meta do dia:</strong> Firmeza total!</p>
+                <h2><i class="fas fa-calendar-day"></i> DIA 13</h2>
+                <span class="goal">🎯 Meta do dia: Firmeza total!</span>
+                
                 <div class="task">
-                    <input type="checkbox" id="dia13-1">
-                    <label for="dia13-1">1 banana antes do treino (evita câimbra)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>1 banana antes do treino (evita câimbra)</label>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia13-2">
-                    <label for="dia13-2">3 séries de: 10 agachamentos + 10 pontes</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>3 séries de: 10 agachamentos + 10 pontes</label>
+                    <a href="#" class="exercise-link" target="_blank">Exemplo</a>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia13-3">
-                    <label for="dia13-3">Reduza o sal da comida pela metade</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Reduza o sal da comida pela metade</label>
                 </div>
                 <div class="tip">
-                    💡 <strong>Dica:</strong> Inspire pelo nariz, expire pela boca durante os exercícios!
+                    <i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Inspire pelo nariz, expire pela boca durante os exercícios!
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Página 6 (Dias 14 e 15 + Final) -->
-    <div class="pdf-page">
-        <div class="day-pair">
+            
             <!-- Dia 14 -->
             <div class="day">
-                <h2>📅 DIA 14</h2>
-                <p><strong>🎯 Meta do dia:</strong> Último esforço!</p>
+                <h2><i class="fas fa-calendar-day"></i> DIA 14</h2>
+                <span class="goal">🎯 Meta do dia: Último esforço!</span>
+                
                 <div class="task">
-                    <input type="checkbox" id="dia14-1">
-                    <label for="dia14-1">Beba 3L de água hoje</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Beba 3L de água hoje</label>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia14-2">
-                    <label for="dia14-2">30 minutos de caminhada ou dança</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>30 minutos de caminhada ou dança</label>
+                    <a href="#" class="exercise-link" target="_blank">Exemplo</a>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia14-3">
-                    <label for="dia14-3">Jante só proteína + vegetais (ex: omelete com espinafre)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Jante só proteína + vegetais (ex: omelete com espinafre)</label>
                 </div>
                 <div class="tip">
-                    💡 <strong>Dica:</strong> Tire uma foto e compare com o Dia 1 – você vai se surpreender!
+                    <i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Tire uma foto e compare com o Dia 1 - você vai se surpreender!
                 </div>
             </div>
-
+            
             <!-- Dia 15 -->
             <div class="day">
-                <h2>📅 DIA 15</h2>
-                <p><strong>🎯 Meta do dia:</strong> Celebrar!</p>
+                <h2><i class="fas fa-calendar-day"></i> DIA 15</h2>
+                <span class="goal">🎯 Meta do dia: Celebrar!</span>
+                
                 <div class="task">
-                    <input type="checkbox" id="dia15-1">
-                    <label for="dia15-1">Repita seus hábitos favoritos da semana</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Repita seus hábitos favoritos da semana</label>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia15-2">
-                    <label for="dia15-2">30 agachamentos + 1 minuto de prancha</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>30 agachamentos + 1 minuto de prancha</label>
+                    <a href="#" class="exercise-link" target="_blank">Exemplo</a>
                 </div>
                 <div class="task">
-                    <input type="checkbox" id="dia15-3">
-                    <label for="dia15-3">Comemore com um jantar saudável (ex: salmão + batata-doce)</label>
+                    <i class="far fa-circle task-icon" onclick="toggleComplete(this)"></i>
+                    <label>Comemore com um jantar saudável (ex: salmão + batata-doce)</label>
                 </div>
                 <div class="tip">
-                    💡 <strong>Dica:</strong> Continue pelo menos 70% desse plano para manter os resultados!
+                    <i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Continue pelo menos 70% desse plano para manter os resultados!
                 </div>
             </div>
-
+            
             <!-- Mensagem Final -->
             <div class="final-message">
-                <h2>🌟 PARABÉNS! 🌟</h2>
+                <h2><i class="fas fa-trophy"></i> PARABÉNS! <i class="fas fa-trophy"></i></h2>
                 <p>Você completou 15 dias de dedicação ao seu corpo e saúde!</p>
                 <p>Lembre-se:</p>
-                <ul style="text-align: left; display: inline-block; margin: 10px auto;">
-                    <li>Seu progresso é cumulativo</li>
-                    <li>O hábito é mais importante que a perfeição</li>
-                    <li>Você é capaz de muito mais do que imagina!</li>
+                <ul style="text-align: left; display: inline-block; margin: 10px auto; list-style-type: none;">
+                    <li><i class="fas fa-check-circle"></i> Seu progresso é cumulativo</li>
+                    <li><i class="fas fa-check-circle"></i> O hábito é mais importante que a perfeição</li>
+                    <li><i class="fas fa-check-circle"></i> Você é capaz de muito mais do que imagina!</li>
                 </ul>
-                <p style="margin-top: 20px; font-weight: bold;">Continue sua jornada e compartilhe seus resultados!</p>
-                <div style="margin-top: 20px; font-size: 24px;">💪🍑✨</div>
+                <p style="margin-top: 20px; font-weight: bold; font-size: 18px;">Continue sua jornada e compartilhe seus resultados!</p>
+                <div style="margin-top: 20px; font-size: 28px;">
+                    <i class="fas fa-heart"></i> <i class="fas fa-fire"></i> <i class="fas fa-star"></i>
+                </div>
             </div>
         </div>
+        
         <div class="footer">
-            Feito com ❤️ para você brilhar! | Plano de 15 Dias - Barriga Chapada + Bumbum Turbinado
+            Feito com <i class="fas fa-heart" style="color: var(--primary);"></i> para você brilhar! | Plano de 15 Dias - Barriga Chapada + Bumbum Turbinado
         </div>
     </div>
+    
+    <script>
+        function toggleComplete(icon) {
+            if (icon.classList.contains('fa-circle')) {
+                icon.classList.remove('fa-circle');
+                icon.classList.add('fa-check-circle', 'completed');
+            } else {
+                icon.classList.remove('fa-check-circle', 'completed');
+                icon.classList.add('fa-circle');
+            }
+        }
+    </script>
 </body>
 </html>
